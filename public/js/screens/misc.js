@@ -7,7 +7,7 @@
 Screens.shared = function() {
   const el = document.getElementById('screen-shared');
   const trip = WL.trips[0];
-  const shareUrl = 'https://wanderlust.app/share/' + (trip ? trip.id : 'demo');
+  const shareUrl = 'https://odyssey.app/share/' + (trip ? trip.id : 'demo');
 
   el.innerHTML = `
   <div class="shared-header">
@@ -189,7 +189,7 @@ window.ProfileScreen = {
     const data = JSON.stringify({ user: WL.currentUser, trips: WL.trips }, null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'wanderlust-data.json'; a.click();
+    a.download = 'odyssey-data.json'; a.click();
     showToast('📤 Data exported!', 'success');
   },
   deleteAccount() {

@@ -1,5 +1,31 @@
 const geminiService = require('../services/geminiService');
 
+exports.chatAssistant = async (req, res) => {
+  try {
+    const { message, trips = [] } = req.body;
+    if (!message) return res.status(400).json({ error: 'Message is required' });
+
+    const prompt = `
+    You are Odyssey AI, a concise senior travel-planning copilot.
+    Answer the user's request with practical, premium travel advice.
+    If useful, reference their current trips: ${JSON.stringify(trips).slice(0, 3000)}
+
+    User message: ${message}
+
+    Return ONLY valid JSON:
+    {
+      "reply": "",
+      "suggested_actions": []
+    }
+    `;
+
+    const result = await geminiService.generateJsonFromGemini(prompt);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Failed to chat with Odyssey AI' });
+  }
+};
+
 // Feature 1: AI Itinerary Generator
 exports.generateItinerary = async (req, res) => {
   try {
@@ -16,7 +42,7 @@ exports.generateItinerary = async (req, res) => {
     } = req.body;
 
     const prompt = `
-    You are an expert AI travel planner for Traveloop.
+    You are an expert AI travel planner for Odyssey.
     Generate a complete multi-day itinerary for the following details:
     Destination: ${destination}
     Duration: ${trip_duration_days} days
@@ -84,7 +110,7 @@ exports.generatePackingList = async (req, res) => {
     } = req.body;
 
     const prompt = `
-    You are an expert travel planner for Traveloop.
+    You are an expert travel planner for Odyssey.
     Generate a categorized packing list for:
     Destination: ${destination}
     Weather: ${weather}
@@ -124,7 +150,7 @@ exports.analyzeBudget = async (req, res) => {
     } = req.body;
 
     const prompt = `
-    You are a budget analysis expert for Traveloop.
+    You are a budget analysis expert for Odyssey.
     Analyze trip affordability and detect overspending for:
     Destination: ${destination}
     Total Budget: ${total_budget}
@@ -159,7 +185,7 @@ exports.recommendActivities = async (req, res) => {
     } = req.body;
 
     const prompt = `
-    You are an activity recommendation engine for Traveloop.
+    You are an activity recommendation engine for Odyssey.
     Recommend activities for:
     Destination: ${destination}
     Interests: ${interests ? interests.join(', ') : 'General'}
@@ -199,7 +225,7 @@ exports.enhanceItinerary = async (req, res) => {
     } = req.body;
 
     const prompt = `
-    You are a social media and travel expert for Traveloop.
+    You are a social media and travel expert for Odyssey.
     Create an engaging, social-media ready summary for a trip:
     Destination: ${destination}
     Duration: ${duration}

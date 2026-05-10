@@ -6,30 +6,30 @@
 
 :root {
   /* ── Palette: Warm earth meets ocean ink ── */
-  --terracotta:     #c2703e;
-  --terracotta-lt:  #d4915f;
-  --terracotta-dk:  #a05a2e;
-  --sand:           #e8d5b7;
-  --sand-light:     #faf3e8;
-  --cream:          #fdf8f0;
-  --ink:            #0d0d0d;
-  --ink-soft:       #1a1a1a;
-  --charcoal:       #2a2a2a;
-  --ocean:          #1b4965;
-  --ocean-light:    #2a6f97;
-  --sage:           #7c9473;
-  --sage-light:     #a3b89b;
-  --dusty-rose:     #c17c74;
-  --warm-gold:      #c9a959;
+  --terracotta:     #0ea5e9;
+  --terracotta-lt:  #38bdf8;
+  --terracotta-dk:  #0369a1;
+  --sand:           #e0f2fe;
+  --sand-light:     #f8fafc;
+  --cream:          #f8fafc;
+  --ink:            #081422;
+  --ink-soft:       #0f2438;
+  --charcoal:       #1f2937;
+  --ocean:          #0f5f8c;
+  --ocean-light:    #0891b2;
+  --sage:           #14b8a6;
+  --sage-light:     #5eead4;
+  --dusty-rose:     #f43f5e;
+  --warm-gold:      #f59e0b;
 
   /* ── Functional ── */
-  --bg-body:        #faf3e8;
+  --bg-body:        #eef7fb;
   --bg-surface:     #ffffff;
-  --bg-raised:      #fff7ed;
-  --bg-inset:       #f0e6d4;
+  --bg-raised:      #f4fbff;
+  --bg-inset:       #e7f3f8;
   --text-primary:   #1a1a1a;
-  --text-secondary: #6b5e50;
-  --text-muted:     #9e917f;
+  --text-secondary: #526477;
+  --text-muted:     #7b8b9c;
   --border:         rgba(26,26,26,0.1);
   --border-strong:  rgba(26,26,26,0.18);
 
@@ -46,7 +46,7 @@
   --shadow-sm:   0 1px 3px rgba(26,26,26,0.06);
   --shadow-md:   0 4px 16px rgba(26,26,26,0.08);
   --shadow-lg:   0 12px 40px rgba(26,26,26,0.12);
-  --shadow-warm: 0 8px 32px rgba(194,112,62,0.12);
+  --shadow-warm: 0 8px 32px rgba(14,165,233,0.16);
 
   /* ── Motion ── */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -66,10 +66,10 @@ body {
 }
 
 body.bg-premium {
-  background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop') center/cover fixed no-repeat;
+  background: linear-gradient(120deg,rgba(8,20,34,0.35),rgba(20,184,166,0.16)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop') center/cover fixed no-repeat;
 }
 body.bg-premium .app-main {
-  background: rgba(250, 243, 232, 0.85);
+  background: rgba(238, 247, 251, 0.9);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -85,7 +85,7 @@ body.bg-premium .app-main {
 .sidebar {
   position: fixed; top: 0; left: 0;
   width: var(--sidebar-w); height: 100vh;
-  background: var(--ink);
+  background: linear-gradient(180deg,#081422 0%,#0f2438 100%);
   display: flex; flex-direction: column;
   z-index: 100;
   transition: var(--transition);
@@ -99,13 +99,14 @@ body.bg-premium .app-main {
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .logo-svg {
-  color: var(--terracotta-lt);
+  color: var(--sage-light);
+  filter: drop-shadow(0 0 14px rgba(20,184,166,.2));
 }
 .logo-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 24px; font-weight: 700;
+  font-size: 26px; font-weight: 700;
   color: var(--sand);
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
 }
 
 .sidebar-scrollable {
@@ -155,6 +156,8 @@ body.bg-premium .app-main {
   width: 20px; text-align: center;
   font-weight: 600;
 }
+.nav-icon-ai { font-size: 10px; letter-spacing: 0; }
+.sr-only-route { display: none !important; }
 
 .sidebar-footer {
   padding: 14px 12px;
@@ -163,7 +166,7 @@ body.bg-premium .app-main {
 .sidebar-user {
   display: flex; align-items: center; gap: 12px;
   padding: 10px; border-radius: var(--radius-md);
-  cursor: pointer; transition: var(--transition);
+  cursor: default; transition: var(--transition);
 }
 .sidebar-user:hover { background: rgba(255,255,255,0.05); }
 .sidebar-user-avatar {
@@ -212,21 +215,60 @@ body.bg-premium .app-main {
 }
 .app-header.hidden { display: none; }
 
-.menu-toggle {
+.menu-toggle,
+.header-back {
   background: none; border: none;
   color: var(--text-secondary);
   font-size: 18px; cursor: pointer;
   padding: 6px;
   transition: var(--transition);
 }
-.menu-toggle:hover { color: var(--terracotta); }
+.menu-toggle:hover,
+.header-back:hover { color: var(--terracotta); }
+.header-back {
+  width: 34px; height: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.55);
+  font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+.header-back:disabled { opacity: .35; cursor: not-allowed; }
+.header-title-wrap { flex: 1; min-width: 0; }
+.breadcrumbs {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
 
 .header-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px; font-weight: 700;
   color: var(--text-primary);
-  flex: 1;
+  line-height: 1.1;
   letter-spacing: 0.3px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.recent-trip-select {
+  max-width: 180px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.7);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  outline: none;
 }
 
 .header-avatar {
@@ -278,6 +320,14 @@ body.bg-premium .app-main {
   display: none;
   padding: 32px 36px;
   min-height: calc(100vh - var(--header-h));
+}
+
+body.nav-open::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(8,20,34,.45);
+  z-index: 80;
 }
 .screen.active { display: block; }
 
@@ -350,9 +400,13 @@ body.sidebar-collapsed .app-header { left: 80px; }
    RESPONSIVE
 ═══════════════════════════════ */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
+  .sidebar { transform: translateX(-100%); box-shadow: var(--shadow-lg); }
   .sidebar.mobile-open { transform: translateX(0); }
   .app-header { left: 0 !important; }
   .app-main { margin-left: 0 !important; }
   .screen { padding: 20px 16px; }
+  .app-header { padding: 0 14px; gap: 10px; }
+  .breadcrumbs { display: none; }
+  .recent-trip-select { display: none; }
+  .header-title { font-size: 16px; }
 }

@@ -22,7 +22,7 @@ app.use('/api/data', dataRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Traveloop AI Server is running' });
+  res.json({ status: 'ok', message: 'Odyssey AI Server is running' });
 });
 
 const PORT = process.env.PORT || 5000;

@@ -4,55 +4,88 @@
 
 Screens.chat = function() {
   const el = document.getElementById('screen-chat');
-  
+
   el.innerHTML = `
   <div class="section-header reveal">
-    <h2 class="section-title">AI Travel <em>Assistant</em></h2>
+    <div>
+      <h2 class="section-title">Odyssey <em>AI Planner</em></h2>
+      <p style="color:var(--text-secondary);font-size:14px;margin-top:4px">Ask for routes, packing, budget tradeoffs, hidden gems, or itinerary refinements.</p>
+    </div>
   </div>
-  
-  <div class="card reveal reveal-d1" style="display:flex;flex-direction:column;height:65vh;padding:0;">
-    <div style="flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;" id="chatHistory">
-      <div style="align-self:flex-start;background:var(--bg-inset);padding:12px 16px;border-radius:16px 16px 16px 0;max-width:80%;">
-        Hello! I'm your Odyssey AI Assistant. How can I help you plan your next adventure?
+
+  <div class="card reveal reveal-d1 chat-shell">
+    <div class="chat-suggestion-row">
+      ${['Plan 3 days in Tokyo under $900', 'What should I pack for Bali?', 'Reduce my Europe trip budget', 'Find hidden gems in Paris'].map(prompt => `
+        <button class="chip" onclick="ChatScreen.usePrompt('${escapeHtml(prompt)}')">${escapeHtml(prompt)}</button>
+      `).join('')}
+    </div>
+
+    <div class="chat-history" id="chatHistory">
+      <div class="chat-message ai">
+        <strong>Odyssey AI</strong>
+        <span>I can help shape trips, compare cities, generate packing ideas, and spot budget risks. What are we planning?</span>
       </div>
     </div>
-    
-    <div style="border-top:1px solid var(--border);padding:16px;display:flex;gap:12px;">
-      <input type="text" class="form-input" id="chatInput" placeholder="Ask me about destinations, packing, or budgets..." style="flex:1;" onkeypress="if(event.key==='Enter') sendChatMessage()">
-      <button class="btn btn-primary" onclick="sendChatMessage()">Send ↗</button>
+
+    <div class="chat-compose">
+      <input type="text" class="form-input" id="chatInput" placeholder="Ask about destinations, packing, budgets, or routes..." onkeypress="if(event.key==='Enter') ChatScreen.send()">
+      <button class="btn btn-primary" onclick="ChatScreen.send()">Send</button>
     </div>
-  </div>
-  `;
+  </div>`;
 };
 
-window.sendChatMessage = function() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-  
-  const history = document.getElementById('chatHistory');
-  
-  // User message
-  const userMsg = document.createElement('div');
-  userMsg.style.cssText = "align-self:flex-end;background:var(--terracotta);color:#fff;padding:12px 16px;border-radius:16px 16px 0 16px;max-width:80%;";
-  userMsg.textContent = text;
-  history.appendChild(userMsg);
-  
-  input.value = '';
-  history.scrollTop = history.scrollHeight;
-  
-  // AI Loading
-  const aiMsg = document.createElement('div');
-  aiMsg.style.cssText = "align-self:flex-start;background:var(--bg-inset);padding:12px 16px;border-radius:16px 16px 16px 0;max-width:80%;font-style:italic;color:var(--text-muted);";
-  aiMsg.textContent = "Thinking...";
-  history.appendChild(aiMsg);
-  history.scrollTop = history.scrollHeight;
-  
-  // Mock AI Response (Connect to backend later)
-  setTimeout(() => {
-    aiMsg.style.fontStyle = 'normal';
-    aiMsg.style.color = 'var(--text-primary)';
-    aiMsg.innerHTML = "I am currently running in offline mode, but once connected to the Odyssey backend, I can analyze your budget, build itineraries, and give real-time advice for <strong>" + text + "</strong>!";
+window.ChatScreen = {
+  usePrompt(prompt) {
+    document.getElementById('chatInput').value = prompt;
+    this.send();
+  },
+
+  async send() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const history = document.getElementById('chatHistory');
+    history.insertAdjacentHTML('beforeend', `<div class="chat-message user">${escapeHtml(text)}</div>`);
+    input.value = '';
+
+    const loading = document.createElement('div');
+    loading.className = 'chat-message ai loading';
+    loading.textContent = 'Thinking through the trip details...';
+    history.appendChild(loading);
     history.scrollTop = history.scrollHeight;
-  }, 1000);
+
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, trips: WL.trips })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'AI request failed');
+      loading.className = 'chat-message ai';
+      loading.innerHTML = `<strong>Odyssey AI</strong><span>${escapeHtml(data.reply || 'I have a few ideas for that trip.')}</span>${renderActions(data.suggested_actions)}`;
+    } catch (error) {
+      loading.className = 'chat-message ai';
+      loading.innerHTML = `<strong>Offline mode</strong><span>${offlineReply(text, error.message)}</span>`;
+    }
+
+    history.scrollTop = history.scrollHeight;
+  }
 };
+
+function renderActions(actions = []) {
+  if (!actions.length) return '';
+  return `<div class="chat-actions">${actions.slice(0, 3).map(action => `<span class="badge badge-info">${escapeHtml(action)}</span>`).join('')}</div>`;
+}
+
+function offlineReply(text, reason) {
+  const lower = text.toLowerCase();
+  if (lower.includes('pack')) {
+    return 'API key is not configured yet, so here is a practical starter set: documents, chargers, weather-ready clothing, compact toiletries, medicines, and one flexible outfit per two travel days.';
+  }
+  if (lower.includes('budget') || lower.includes('cheap')) {
+    return 'API key is not configured yet, so here is the quick budget move: cap stays and food first, group activities by neighborhood, keep one free activity daily, and reserve 12-15% for surprises.';
+  }
+  return `AI backend is reachable, but ${escapeHtml(reason)}. For now, start with destination, dates, budget, pace, and interests, then use the itinerary builder to turn that into stops and activities.`;
+}

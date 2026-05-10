@@ -197,7 +197,7 @@ function renderTripCards(trips) {
 
   return trips.map(trip => `
   <div class="trip-card">
-    <div class="trip-card-img" style="background:${cityGradient(trip.name)}">${trip.emoji}</div>
+    <div class="trip-card-img image-card" style="background-image:linear-gradient(180deg,rgba(8,20,34,0.08),rgba(8,20,34,0.76)),url('${tripImage(trip.name)}')">${trip.emoji}</div>
     <div class="trip-card-body">
       <div class="trip-card-title">${trip.name}</div>
       <div class="trip-card-meta">

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const aiController = require('../controllers/aiController');
 
+router.post('/chat', aiController.chatAssistant);
+
 // Feature 1: AI Itinerary Generator
 router.post('/generate-itinerary', aiController.generateItinerary);
 

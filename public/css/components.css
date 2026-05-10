@@ -121,6 +121,7 @@
 }
 .stat-card.terra::after  { background: var(--terracotta); }
 .stat-card.ocean::after  { background: var(--ocean); }
+.stat-card.teal::after   { background: var(--sage); }
 .stat-card.sage::after   { background: var(--sage); }
 .stat-card.gold::after   { background: var(--warm-gold); }
 .stat-card.rose::after   { background: var(--dusty-rose); }
@@ -406,6 +407,8 @@
 .dest-card:hover { transform: scale(1.02); box-shadow: var(--shadow-md); }
 .dest-card-img {
   width: 100%; height: 180px;
+  background-size: cover;
+  background-position: center;
   display: flex; align-items: center; justify-content: center;
   font-size: 52px; position: relative;
 }
@@ -430,6 +433,12 @@
   height: 130px;
   display: flex; align-items: center; justify-content: center;
   font-size: 44px;
+}
+.image-card {
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-shadow: 0 4px 18px rgba(0,0,0,.45);
 }
 .activity-card-body { padding: 16px; }
 .activity-card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }

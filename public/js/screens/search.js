@@ -59,7 +59,9 @@ function renderCityCards(cities) {
 
   return cities.map(city => `
   <div class="city-card">
-    <div class="city-emoji">${city.emoji}</div>
+    <div class="city-photo" style="background-image:linear-gradient(180deg,rgba(8,20,34,0.02),rgba(8,20,34,0.62)),url('${cityImage(city.name)}')">
+      <span>${city.emoji}</span>
+    </div>
     <div class="city-info">
       <div class="city-name">${city.name}</div>
       <div class="city-country">${city.country} &middot; ${city.region}</div>
@@ -172,7 +174,7 @@ function renderActivityCards(acts) {
 
   return acts.map(act => `
   <div class="activity-card">
-    <div class="activity-card-img">${act.emoji}</div>
+    <div class="activity-card-img image-card" style="background-image:linear-gradient(180deg,rgba(8,20,34,0.02),rgba(8,20,34,0.68)),url('${activityImage(act.type, act.city)}')">${act.emoji}</div>
     <div class="activity-card-body">
       <div class="activity-card-title">${act.name}</div>
       <div class="activity-card-meta">
@@ -236,3 +238,14 @@ window.ActivitySearch = {
     showToast(`${act.emoji} ${act.name} — ${act.duration}, $${act.cost}`);
   }
 };
+
+function activityImage(type = '', city = '') {
+  const cityKey = city.toLowerCase();
+  if (cityKey.includes('paris')) return 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop';
+  if (cityKey.includes('rome')) return 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=800&auto=format&fit=crop';
+  if (cityKey.includes('tokyo') || cityKey.includes('kyoto')) return 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=800&auto=format&fit=crop';
+  if (type === 'Food') return 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop';
+  if (type === 'Nature') return 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=800&auto=format&fit=crop';
+  if (type === 'Adventure') return 'https://images.unsplash.com/photo-1528543606781-2f6e6857f318?q=80&w=800&auto=format&fit=crop';
+  return 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop';
+}

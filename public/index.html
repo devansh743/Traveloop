@@ -3,91 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Odyssey AI</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-  
-  <!-- Stylesheets -->
+  <title>Odyssey | Intelligent Trip Planning</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23081422'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%2338bdf8' stroke-width='4'/%3E%3Cpath d='M32 13v8M32 43v8M13 32h8M43 32h8M25 39l6-15 8-5-6 15-8 5Z' fill='%2314b8a6' stroke='%23e0f2fe' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/screens.css">
 </head>
 <body class="bg-premium">
-
-  <!-- AUTH SCREEN -->
   <div id="screen-auth" class="screen"></div>
 
-  <!-- APP CHROME (Shown after login) -->
   <aside class="sidebar hidden" id="sidebar">
     <div class="sidebar-logo">
-      <svg class="logo-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-        <path d="M12 12 2.1 7.1"></path>
-        <path d="M12 12l8.9 4.9"></path>
+      <svg class="logo-svg" width="32" height="32" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="21" stroke="currentColor" stroke-width="4" opacity=".75"></circle>
+        <path d="M32 8v10M32 46v10M8 32h10M46 32h10" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".55"></path>
+        <path d="M25 39l6-15 8-5-6 15-8 5Z" fill="currentColor" stroke="#e0f2fe" stroke-width="2" stroke-linejoin="round"></path>
       </svg>
       <span class="logo-text">Odyssey</span>
     </div>
-    
+
     <div class="sidebar-scrollable">
-      <div class="nav-section-title">PLANNING</div>
+      <div class="nav-section-title">Planning</div>
       <ul class="sidebar-nav">
-        <li><a href="#" class="nav-link" data-screen="dashboard"><span class="nav-icon">◈</span> Dashboard</a></li>
-        <li><a href="#" class="nav-link" data-screen="my-trips"><span class="nav-icon">◐</span> My Trips</a></li>
-        <li><a href="#" class="nav-link" data-screen="create-trip"><span class="nav-icon">⊕</span> Plan Trip</a></li>
+        <li><a href="#" class="nav-link" data-screen="dashboard"><span class="nav-icon">⌂</span> Dashboard</a></li>
+        <li><a href="#" class="nav-link" data-screen="my-trips"><span class="nav-icon">✈</span> My Trips</a></li>
+        <li><a href="#" class="nav-link" data-screen="create-trip"><span class="nav-icon">+</span> Plan Trip</a></li>
+        <li><a href="#" class="nav-link" data-screen="itinerary-builder"><span class="nav-icon">▦</span> Builder</a></li>
       </ul>
 
-      <div class="nav-section-title">EXPLORE</div>
+      <div class="nav-section-title">Explore</div>
       <ul class="sidebar-nav">
         <li><a href="#" class="nav-link" data-screen="city-search"><span class="nav-icon">◎</span> Cities</a></li>
         <li><a href="#" class="nav-link" data-screen="activity-search"><span class="nav-icon">◇</span> Activities</a></li>
       </ul>
 
-      <div class="nav-section-title">INTELLIGENCE</div>
+      <div class="nav-section-title">Tools</div>
       <ul class="sidebar-nav">
-        <li><a href="#" class="nav-link" data-screen="chat"><span class="nav-icon">✨</span> AI Chat</a></li>
+        <li><a href="#" class="nav-link" data-screen="budget"><span class="nav-icon">$</span> Budget</a></li>
+        <li><a href="#" class="nav-link" data-screen="packing"><span class="nav-icon">✓</span> Packing</a></li>
+        <li><a href="#" class="nav-link" data-screen="notes"><span class="nav-icon">≡</span> Notes</a></li>
+        <li><a href="#" class="nav-link" data-screen="shared"><span class="nav-icon">↗</span> Public Share</a></li>
       </ul>
-      
-      <!-- hidden profile route for direct URL routing, not displayed in nav -->
-      <a href="#" class="nav-link" data-screen="profile" style="display:none">Profile</a>
+
+      <div class="nav-section-title">Intelligence</div>
+      <ul class="sidebar-nav">
+        <li><a href="#" class="nav-link" data-screen="chat"><span class="nav-icon nav-icon-ai">AI</span> AI Planner</a></li>
+      </ul>
+
+      <a href="#" class="nav-link sr-only-route" data-screen="profile">Profile</a>
     </div>
 
     <div class="sidebar-footer">
-      <div class="sidebar-user" id="sidebarUser" onclick="Router.navigate('profile')">
-        <div class="sidebar-user-avatar" id="sidebarAvatar">W</div>
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="sidebar-user-avatar" id="sidebarAvatar">T</div>
         <div class="sidebar-user-info">
           <div class="sidebar-user-name" id="sidebarName">Traveler</div>
-          <div class="sidebar-user-role" id="sidebarRole">Explorer</div>
+          <div class="sidebar-user-role" id="sidebarRole">Explorer plan</div>
         </div>
       </div>
     </div>
   </aside>
 
   <header class="app-header hidden" id="app-header">
-    <button class="menu-toggle" id="menuToggle">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
     </button>
-    <div class="header-title" id="headerTitle">◈ Dashboard</div>
-    
+    <button class="header-back" id="headerBack" title="Go back" aria-label="Go back">‹</button>
+    <div class="header-title-wrap">
+      <div class="breadcrumbs" id="breadcrumbs">Odyssey / Dashboard</div>
+      <div class="header-title" id="headerTitle">Dashboard</div>
+    </div>
+
     <div class="header-actions">
-      <!-- Profile Dropdown Container -->
+      <select class="recent-trip-select" id="recentTripSelect" title="Recently viewed trips">
+        <option value="">Recent trips</option>
+      </select>
       <div class="profile-dropdown-container">
-        <div class="header-avatar" id="headerAvatar">W</div>
+        <button class="header-avatar" id="headerAvatar" aria-label="Open profile menu">T</button>
         <div class="profile-dropdown" id="profileDropdown">
-          <div class="dropdown-header">
-            <strong>My Account</strong>
-          </div>
-          <a href="#" class="dropdown-item" onclick="Router.navigate('profile'); return false;">○ Profile Details</a>
-          <a href="#" class="dropdown-item" onclick="openPreferencesModal(); return false;">⚙ Travel Preferences</a>
+          <div class="dropdown-header"><strong>My Account</strong></div>
+          <a href="#" class="dropdown-item" onclick="Router.navigate('profile'); return false;">Profile details</a>
+          <a href="#" class="dropdown-item" onclick="openPreferencesModal(); return false;">Travel preferences</a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item text-danger" id="logoutBtn">Sign Out</a>
+          <a href="#" class="dropdown-item text-danger" id="logoutBtn">Sign out</a>
         </div>
       </div>
     </div>
   </header>
 
   <main class="app-main" id="app-main" style="display:none">
-    <!-- Screens are injected here -->
     <div id="screen-dashboard" class="screen" data-screen="dashboard"></div>
     <div id="screen-my-trips" class="screen" data-screen="my-trips"></div>
     <div id="screen-create-trip" class="screen" data-screen="create-trip"></div>
@@ -103,46 +112,44 @@
     <div id="screen-profile" class="screen" data-screen="profile"></div>
   </main>
 
-  <!-- Preferences Modal -->
   <div class="modal-overlay" id="preferencesModal">
     <div class="modal">
       <div class="modal-header">
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;">Travel Preferences</h3>
-        <button class="btn-close" onclick="closePreferencesModal()">×</button>
+        <h3 class="modal-title">Travel Preferences</h3>
+        <button class="modal-close" onclick="closePreferencesModal()">×</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label class="form-label">Budget Style</label>
           <select class="form-input">
-            <option>Budget Backpacking</option>
             <option>Balanced</option>
-            <option>Luxury & Comfort</option>
+            <option>Budget backpacking</option>
+            <option>Luxury and comfort</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Preferred Transport</label>
           <select class="form-input">
-            <option>Public Transit</option>
-            <option>Rental Car</option>
-            <option>Walking / Biking</option>
+            <option>Public transit</option>
+            <option>Rental car</option>
+            <option>Walking and biking</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Travel Pace</label>
           <select class="form-input">
-            <option>Fast (See Everything)</option>
             <option>Moderate</option>
-            <option>Slow (Relaxed)</option>
+            <option>Fast</option>
+            <option>Slow</option>
           </select>
         </div>
-        <button class="btn btn-primary btn-block" style="margin-top:24px;" onclick="closePreferencesModal(); showToast('Preferences Saved!', 'success')">Save Preferences</button>
+        <button class="btn btn-primary btn-block" style="margin-top:24px;" onclick="closePreferencesModal(); showToast('Preferences saved', 'success')">Save preferences</button>
       </div>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
-  <!-- Javascript -->
   <script src="/js/data.js"></script>
   <script src="/js/router.js"></script>
   <script src="/js/screens/auth.js"></script>
